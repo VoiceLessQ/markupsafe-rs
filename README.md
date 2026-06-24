@@ -1,17 +1,17 @@
 # markupsafe-rs
 
-A Rust port of Python's [`markupsafe`](https://github.com/pallets/markupsafe) — HTML escaping
+A Rust port of Python's [`markupsafe`](https://github.com/pallets/markupsafe): HTML escaping
 with a string type that tracks whether its contents are already safe. The escaping matches the
 reference implementation byte-for-byte (verified by differential testing).
 
 In Python, `Markup` is a `str` subclass that enforces "this text is safe" by convention. Here
 it's a **newtype**, so safety is a compile-time guarantee: combining a `Markup` with raw text
-*forces* the raw text to be escaped — you can't accidentally treat unescaped input as safe.
+forces the raw text to be escaped, making it impossible to accidentally treat unescaped input as safe.
 
 ## Features
 
-- `escape` — replace `&`, `<`, `>`, `'`, `"` with HTML-safe entities, returning a `Markup`.
-- `Markup` — a string known to be safe (escaped or explicitly marked). Combining it with a
+- `escape`: replace `&`, `<`, `>`, `'`, `"` with HTML-safe entities, returning a `Markup`.
+- `Markup`: a string known to be safe (escaped or explicitly marked). Combining it with a
   plain `&str` escapes the `&str`; combining two `Markup`s does not.
 - `escape_silent` (treats `None` as empty), `escape_html` (for types implementing `HasHtml`),
   and the `HasHtml` trait (the `__html__` protocol).
@@ -56,7 +56,7 @@ assert_eq!(both.as_str(), "<a><b>");
 This crate covers markupsafe's core: HTML escaping and the type-safe `Markup`. Not ported:
 Python's ~30 `str`-method overrides (`Markup` is a newtype here, not a `str` subclass, so it
 neither has nor needs them), `%`/`format` formatting, and `unescape`/`striptags` (which need
-full HTML-entity *decoding* — use a dedicated HTML-entities crate for that).
+full HTML-entity decoding; use a dedicated HTML-entities crate for that).
 
 ## License
 
